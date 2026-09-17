@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Task & Resource Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Auth View -->
+    <div id="auth-view" class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="enterprise-badge">ENTERPRISE EDITION</div>
+                <h2>Task & Resource System</h2>
+                <p>Enterprise Resource Planning & Agile Work Orchestration</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-username">Username</label>
+                    <input type="text" id="login-username" placeholder="admin / manager / employee" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Admin@123 / Manager@123" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                <div class="auth-toggle">
+                    Don't have an enterprise account? <a href="#" id="show-register-link">Register here</a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="reg-fullname">Full Name</label>
+                    <input type="text" id="reg-fullname" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-username">Username</label>
+                    <input type="text" id="reg-username" placeholder="johndoe" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Work Email</label>
+                    <input type="email" id="reg-email" placeholder="john@enterprise.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" placeholder="Min 6 characters" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-role">Role</label>
+                    <select id="reg-role">
+                        <option value="ROLE_EMPLOYEE">Employee (Task Execution)</option>
+                        <option value="ROLE_MANAGER">Manager (Task & Resource Allocator)</option>
+                        <option value="ROLE_ADMIN">Administrator (Full Access)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reg-dept">Department</label>
+                    <select id="reg-dept">
+                        <option value="1">Engineering</option>
+                        <option value="2">IT Infrastructure</option>
+                        <option value="3">Product & UX</option>
+                        <option value="4">Operations</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                <div class="auth-toggle">
+                    Already registered? <a href="#" id="show-login-link">Sign In</a>
+                </div>
+            </form>
+
+            <div class="demo-credentials">
+                <h4>Default Demo Accounts:</h4>
+                <div class="creds-list">
+                    <div><strong>Admin:</strong> <code>admin</code> / <code>Admin@123</code></div>
+                    <div><strong>Manager:</strong> <code>manager</code> / <code>Manager@123</code></div>
+                    <div><strong>Employee:</strong> <code>employee</code> / <code>Employee@123</code></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Shell -->
+    <div id="app-view" class="app-container hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">ER</div>
+                <div class="brand-text">
+                    <h3>Enterprise ERP</h3>
+                    <span>Task & Resources</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-view="dashboard">
+                    <span class="icon">📊</span> <span>Dashboard</span>
+                </a>
+                <a href="#tasks" class="nav-item" data-view="tasks">
+                    <span class="icon">📝</span> <span>Tasks</span>
+                </a>
+                <a href="#resources" class="nav-item" data-view="resources">
+                    <span class="icon">💻</span> <span>Resources</span>
+                </a>
+                <a href="#allocations" class="nav-item" data-view="allocations">
+                    <span class="icon">🔗</span> <span>Allocations</span>
+                </a>
+                <a href="#users" class="nav-item" data-view="users">
+                    <span class="icon">👥</span> <span>Team & Users</span>
+                </a>
+            </nav>
+
+            <div class="user-profile-widget">
+                <div class="avatar" id="sidebar-user-avatar">U</div>
+                <div class="user-info">
+                    <div class="user-name" id="sidebar-user-name">User Name</div>
+                    <div class="user-role-badge" id="sidebar-user-role">ROLE_ADMIN</div>
+                </div>
+                <button id="logout-btn" class="logout-btn" title="Sign Out">🚪</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="view-title">
+                    <h1 id="header-view-title">Dashboard Overview</h1>
+                    <p id="header-view-subtitle">Real-time enterprise metrics and task distribution</p>
+                </div>
+                <div class="header-actions">
+                    <button id="quick-create-task-btn" class="btn btn-primary" style="display:none;">+ New Task</button>
+                    <button id="quick-create-res-btn" class="btn btn-secondary" style="display:none;">+ New Resource</button>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="content-view active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">📋</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Total Tasks</span>
+                            <h2 class="stat-value" id="stat-total-tasks">0</h2>
+                            <span class="stat-subtext" id="stat-completed-rate">0% Completed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-yellow">⚡</div>
+                        <div class="stat-content">
+                            <span class="stat-label">In Progress</span>
+                            <h2 class="stat-value" id="stat-in-progress-tasks">0</h2>
+                            <span class="stat-subtext" id="stat-todo-tasks">0 in backlog</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-red">⏰</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Overdue Tasks</span>
+                            <h2 class="stat-value" id="stat-overdue-tasks">0</h2>
+                            <span class="stat-subtext">Needs immediate attention</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-purple">🖥️</div>
+                        <div class="stat-content">
+                            <span class="stat-label">Enterprise Assets</span>
+                            <h2 class="stat-value" id="stat-total-resources">0</h2>
+                            <span class="stat-subtext" id="stat-utilization-rate">0% Utilization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Active Work In Progress</h3>
+                            <button class="btn btn-sm btn-link" onclick="app.navigateTo('tasks')">View All Tasks</button>
+                        </div>
+                        <div id="dashboard-recent-tasks" class="panel-body">
+                            <div class="loading-spinner">Loading tasks...</div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Resource Availability Overview</h3>
+                            <button class="btn btn-sm btn-link" onclick="app.navigateTo('resources')">View All Assets</button>
+                        </div>
+                        <div id="dashboard-resource-summary" class="panel-body">
+                            <div class="loading-spinner">Loading resources...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks View -->
+            <section id="view-tasks" class="content-view">
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <input type="text" id="task-search-input" placeholder="Search tasks by title or assignee..." class="search-input">
+                        <select id="task-status-filter" class="filter-select">
+                            <option value="ALL">All Statuses</option>
+                            <option value="TODO">To Do</option>
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="IN_REVIEW">In Review</option>
+                            <option value="COMPLETED">Completed</option>
+                        </select>
+                        <select id="task-priority-filter" class="filter-select">
+                            <option value="ALL">All Priorities</option>
+                            <option value="URGENT">Urgent</option>
+                            <option value="HIGH">High</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="LOW">Low</option>
+                        </select>
+                    </div>
+                    <button id="open-create-task-modal-btn" class="btn btn-primary manager-action">+ Create Task</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Task Title</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assignee</th>
+                                <th>Department</th>
+                                <th>Due Date</th>
+                                <th>Hours (Est/Act)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasks-table-body">
+                            <tr><td colspan="8" class="text-center">Loading tasks...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Resources View -->
+            <section id="view-resources" class="content-view">
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <input type="text" id="resource-search-input" placeholder="Search assets by name or serial..." class="search-input">
+                        <select id="resource-type-filter" class="filter-select">
+                            <option value="ALL">All Types</option>
+                            <option value="EQUIPMENT">Equipment</option>
+                            <option value="SOFTWARE_LICENSE">Software License</option>
+                            <option value="SERVER">Server / Cloud</option>
+                            <option value="MEETING_ROOM">Meeting Room</option>
+                            <option value="VEHICLE">Vehicle</option>
+                        </select>
+                    </div>
+                    <button id="open-create-resource-modal-btn" class="btn btn-primary manager-action">+ Register Resource</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Resource Name</th>
+                                <th>Type</th>
+                                <th>Serial / Identifier</th>
+                                <th>Status</th>
+                                <th>Capacity (Available / Total)</th>
+                                <th>Location</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resources-table-body">
+                            <tr><td colspan="8" class="text-center">Loading enterprise resources...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Allocations View -->
+            <section id="view-allocations" class="content-view">
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <h3>Resource Allocations & Bookings</h3>
+                    </div>
+                    <button id="open-create-allocation-modal-btn" class="btn btn-primary manager-action">+ Allocate Resource</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Resource</th>
+                                <th>Allocated To</th>
+                                <th>Linked Task</th>
+                                <th>Qty</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocations-table-body">
+                            <tr><td colspan="8" class="text-center">Loading allocations...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Users / Team View -->
+            <section id="view-users" class="content-view">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Enterprise Directory & Team Members</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Username</th>
+                                    <th>Work Email</th>
+                                    <th>Role</th>
+                                    <th>Department</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <tr><td colspan="5" class="text-center">Loading directory...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="task-modal" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="task-modal-title">Create New Task</h3>
+                <button class="modal-close-btn" onclick="app.closeModals()">&times;</button>
+            </div>
+            <form id="task-form" class="modal-body">
+                <input type="hidden" id="task-id">
+                <div class="form-group">
+                    <label for="task-title">Title *</label>
+                    <input type="text" id="task-title" required placeholder="e.g. Implement API endpoint">
+                </div>
+                <div class="form-group">
+                    <label for="task-desc">Description</label>
+                    <textarea id="task-desc" rows="3" placeholder="Provide task context and acceptance criteria..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority">
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM" selected>Medium</option>
+                            <option value="HIGH">High</option>
+                            <option value="URGENT">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-due-date">Due Date</label>
+                        <input type="date" id="task-due-date">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-estimated-hours">Estimated Hours</label>
+                        <input type="number" id="task-estimated-hours" min="0" step="0.5" value="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-assignee">Assignee</label>
+                        <select id="task-assignee">
+                            <option value="">Unassigned</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="app.closeModals()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Resource Modal -->
+    <div id="resource-modal" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="resource-modal-title">Register Enterprise Resource</h3>
+                <button class="modal-close-btn" onclick="app.closeModals()">&times;</button>
+            </div>
+            <form id="resource-form" class="modal-body">
+                <input type="hidden" id="resource-id">
+                <div class="form-group">
+                    <label for="resource-name">Resource Name *</label>
+                    <input type="text" id="resource-name" required placeholder="e.g. Dell PowerEdge R750 Server">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resource-type">Resource Type *</label>
+                        <select id="resource-type" required>
+                            <option value="EQUIPMENT">Equipment</option>
+                            <option value="SOFTWARE_LICENSE">Software License</option>
+                            <option value="SERVER">Server / Cloud</option>
+                            <option value="MEETING_ROOM">Meeting Room</option>
+                            <option value="VEHICLE">Vehicle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-serial">Serial / Identifier</label>
+                        <input type="text" id="resource-serial" placeholder="e.g. SN-89214">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resource-capacity">Total Capacity / Units *</label>
+                        <input type="number" id="resource-capacity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-location">Location / Pool</label>
+                        <input type="text" id="resource-location" placeholder="e.g. Data Center Rack 2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="resource-desc">Description</label>
+                    <textarea id="resource-desc" rows="2" placeholder="Resource specifications or allocation terms..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="app.closeModals()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Resource</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Allocation Modal -->
+    <div id="allocation-modal" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Allocate Enterprise Resource</h3>
+                <button class="modal-close-btn" onclick="app.closeModals()">&times;</button>
+            </div>
+            <form id="allocation-form" class="modal-body">
+                <div class="form-group">
+                    <label for="alloc-resource-id">Select Resource *</label>
+                    <select id="alloc-resource-id" required>
+                        <option value="">Select an available resource</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="alloc-user-id">Allocate To (User) *</label>
+                        <select id="alloc-user-id" required>
+                            <option value="">Select team member</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="alloc-task-id">Linked Task (Optional)</label>
+                        <select id="alloc-task-id">
+                            <option value="">None / General Use</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="alloc-quantity">Quantity *</label>
+                        <input type="number" id="alloc-quantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alloc-start-date">Start Date *</label>
+                        <input type="date" id="alloc-start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alloc-end-date">End Date *</label>
+                        <input type="date" id="alloc-end-date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="alloc-notes">Allocation Notes</label>
+                    <input type="text" id="alloc-notes" placeholder="Purpose or project reference...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="app.closeModals()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm Allocation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/allocations.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

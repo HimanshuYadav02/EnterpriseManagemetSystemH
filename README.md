@@ -1,92 +1,316 @@
 # Enterprise Task & Resource Management System
 
-A robust, enterprise-grade Task & Resource Allocation system built with **Java 21/25**, **Spring Boot 3.4**, **Spring Security 6**, **JJWT (0.12.6)**, **MySQL**, and a modern **ES6+ Vanilla SPA Frontend**.
+A full-stack enterprise application for managing **users, departments, tasks, resources, allocations, and dashboard analytics** through a secure and responsive web interface.
 
----
+## 🔗 Live Demo
 
-## 📁 Complete Folder Structure
+- **Live Demo:** https://enterprisemanagemetsystemh-3.onrender.com/
+- **Backend API:** https://enterprisemanagemetsystemh-3.onrender.com/api
+- **API Base URL:** https://enterprisemanagemetsystemh-3.onrender.com/api
 
-```
+> Replace the placeholder URLs above with your deployed frontend and backend links.
+
+## ✨ Features
+
+### 🔐 Authentication & Authorization
+- User registration and login
+- JWT-based authentication
+- Role-based access control
+- Protected API routes
+- Support for Admin, Manager, and Employee roles
+
+### 📊 Dashboard
+- Live KPI cards
+- Task status overview
+- Resource availability summary
+- Allocation statistics
+- Department-level insights
+- Interactive charts and analytics
+
+### ✅ Task Management
+- Create, update, and view tasks
+- Assign tasks to users
+- Set task priority:
+  - LOW
+  - MEDIUM
+  - HIGH
+  - URGENT
+- Track task status:
+  - TODO
+  - IN_PROGRESS
+  - IN_REVIEW
+  - COMPLETED
+- Update actual hours and task progress
+
+### 🧰 Resource Management
+- Register enterprise resources
+- Track resource type and status
+- Monitor available and allocated resources
+- Manage physical and digital assets
+- Resource inventory and capacity tracking
+
+### 📅 Resource Allocation
+- Book resources for users or tasks
+- Check-out and check-in resources
+- Track allocation history
+- Manage active, returned, and cancelled allocations
+
+### 🏢 Department & User Management
+- Manage departments
+- View user profiles
+- Assign users to departments
+- Manage user roles and permissions
+
+## 🛠️ Technology Stack
+
+### Backend
+- Java
+- Spring Boot
+- Spring Security 6
+- JWT Authentication
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Maven
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Fetch API
+- Chart-based dashboard
+- Single Page Application (SPA) navigation
+
+### Database
+- MySQL for production
+- H2 in-memory database for development/testing
+
+## 📁 Project Structure
+
+```text
 enterprise-task-resource-mgmt/
-├── pom.xml                                   # Maven dependencies & build configuration
-├── schema.sql                                # Standalone MySQL DDL & DML database scripts
-├── README.md                                 # Full documentation & setup guide
-└── src/
-    ├── main/
-    │   ├── java/com/enterprise/taskresource/
-    │   │   ├── TaskResourceManagementApplication.java  # Spring Boot Main Entrypoint
-    │   │   ├── config/
-    │   │   │   ├── SecurityConfig.java       # Spring Security 6 FilterChain & CORS
-    │   │   │   ├── JwtAuthFilter.java        # OncePerRequestFilter for Bearer token
-    │   │   │   ├── JwtUtils.java             # JJWT 0.12 token generation & verification
-    │   │   │   ├── UserDetailsServiceImpl.java # Custom UserDetailsService
-    │   │   │   └── DataInitializer.java      # Pre-seeds Demo accounts, assets & tasks
-    │   │   ├── controller/
-    │   │   │   ├── AuthController.java       # /api/auth/login, /api/auth/register, /api/auth/me
-    │   │   │   ├── UserController.java       # /api/users, /api/users/departments
-    │   │   │   ├── TaskController.java       # /api/tasks CRUD & status updates
-    │   │   │   ├── ResourceController.java   # /api/resources inventory & management
-    │   │   │   ├── AllocationController.java # /api/allocations booking & check-in/out
-    │   │   │   └── DashboardController.java  # /api/dashboard/stats live KPI aggregations
-    │   │   ├── dto/
-    │   │   │   ├── ApiResponse.java          # Standard unified REST envelope
-    │   │   │   ├── AuthRequest.java          # Login payload
-    │   │   │   ├── AuthResponse.java         # Token & authenticated user profile
-    │   │   │   ├── RegisterRequest.java      # User registration payload
-    │   │   │   ├── UserResponse.java         # User response DTO
-    │   │   │   ├── TaskRequest.java          # Task create/update payload
-    │   │   │   ├── TaskResponse.java         # Task response DTO
-    │   │   │   ├── TaskStatusUpdateRequest.java # Status and actual hours update
-    │   │   │   ├── ResourceRequest.java      # Asset registration payload
-    │   │   │   ├── ResourceResponse.java     # Asset response DTO
-    │   │   │   ├── AllocationRequest.java    # Resource booking payload
-    │   │   │   ├── AllocationResponse.java   # Allocation response DTO
-    │   │   │   └── DashboardStatsResponse.java # High-level dashboard KPIs
-    │   │   ├── entity/
-    │   │   │   ├── Role.java                 # ROLE_ADMIN, ROLE_MANAGER, ROLE_EMPLOYEE
-    │   │   │   ├── Department.java           # Enterprise departments (Eng, IT, Prod, Ops)
-    │   │   │   ├── User.java                 # User account entity
-    │   │   │   ├── TaskPriority.java         # LOW, MEDIUM, HIGH, URGENT
-    │   │   │   ├── TaskStatus.java           # TODO, IN_PROGRESS, IN_REVIEW, COMPLETED
-    │   │   │   ├── Task.java                 # Task entity with estimations & assignees
-    │   │   │   ├── ResourceType.java         # EQUIPMENT, SOFTWARE_LICENSE, SERVER, etc.
-    │   │   │   ├── ResourceStatus.java       # AVAILABLE, ALLOCATED, MAINTENANCE, RETIRED
-    │   │   │   ├── Resource.java             # Enterprise physical & digital assets
-    │   │   │   ├── AllocationStatus.java     # ACTIVE, RETURNED, CANCELLED
-    │   │   │   └── ResourceAllocation.java   # Resource-to-Task/User allocation mapping
-    │   │   ├── exception/
-    │   │   │   ├── BadRequestException.java
-    │   │   │   ├── ResourceNotFoundException.java
-    │   │   │   └── GlobalExceptionHandler.java # @RestControllerAdvice for uniform errors
-    │   │   ├── repository/
-    │   │   │   ├── DepartmentRepository.java
-    │   │   │   ├── UserRepository.java
-    │   │   │   ├── TaskRepository.java
-    │   │   │   ├── ResourceRepository.java
-    │   │   │   └── ResourceAllocationRepository.java
-    │   │   └── service/
-    │   │       ├── AuthService.java
-    │   │       ├── UserService.java
-    │   │       ├── TaskService.java
-    │   │       ├── ResourceService.java
-    │   │       ├── AllocationService.java
-    │   │       └── DashboardService.java
-    │   └── resources/
-    │       ├── application.properties        # Main config (Active profile, JWT keys)
-    │       ├── application-dev.properties    # H2 In-Memory DB (Zero-config instant launch)
-    │       ├── application-mysql.properties  # MySQL Production Database connection
-    │       └── static/                       # Served directly at http://localhost:8080/
-    │           ├── index.html                # Single Page Enterprise UI
-    │           ├── css/styles.css            # Enterprise Slate/Navy Design System
-    │           └── js/
-    │               ├── api.js                # ES6 Fetch wrapper with auto-Bearer injection
-    │               ├── auth.js               # JWT Auth & RBAC state management
-    │               ├── dashboard.js          # Live KPI metrics & charts
-    │               ├── tasks.js              # Task board, CRUD, quick status picker
-    │               ├── resources.js          # Asset inventory & capacity tracking
-    │               ├── allocations.js        # Check-out, check-in, bookings
-    │               └── app.js                # SPA navigation & view orchestrator
-    └── test/
-        └── java/com/enterprise/taskresource/
-            └── TaskResourceManagementApplicationTests.java
+├── pom.xml
+├── schema.sql
+├── README.md
+├── src/
+│   ├── main/
+│   │   ├── java/com/enterprise/taskresource/
+│   │   │   ├── TaskResourceManagementApplication.java
+│   │   │   ├── config/
+│   │   │   │   ├── SecurityConfig.java
+│   │   │   │   ├── JwtAuthFilter.java
+│   │   │   │   ├── JwtUtils.java
+│   │   │   │   ├── UserDetailsServiceImpl.java
+│   │   │   │   └── DataInitializer.java
+│   │   │   ├── controller/
+│   │   │   ├── dto/
+│   │   │   ├── entity/
+│   │   │   ├── exception/
+│   │   │   ├── repository/
+│   │   │   └── service/
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── application-dev.properties
+│   │       ├── application-mysql.properties
+│   │       └── static/
+│   │           ├── index.html
+│   │           ├── css/
+│   │           │   └── styles.css
+│   │           └── js/
+│   │               ├── api.js
+│   │               ├── auth.js
+│   │               ├── dashboard.js
+│   │               ├── tasks.js
+│   │               ├── resources.js
+│   │               ├── allocations.js
+│   │               └── app.js
+│   └── test/
+│       └── java/com/enterprise/taskresource/
+│           └── TaskResourceManagementApplicationTests.java
 ```
+
+## ⚙️ Local Setup
+
+### Prerequisites
+
+Install the following tools:
+
+- Java 17 or later
+- Maven 3.8+
+- MySQL 8+ (for production-style setup)
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+cd enterprise-task-resource-mgmt
+```
+
+### 2. Configure the database
+
+Create a MySQL database:
+
+```sql
+CREATE DATABASE task_resource_db;
+```
+
+Update your MySQL configuration in:
+
+```text
+src/main/resources/application-mysql.properties
+```
+
+Example:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/task_resource_db
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD
+```
+
+> Do not commit real passwords, JWT secrets, or private credentials to GitHub.
+
+### 3. Run the application
+
+For development:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+For MySQL:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+```
+
+The application will be available at:
+
+```text
+http://localhost:8080
+```
+
+## 🔌 API Endpoints
+
+| Module | Endpoint | Method |
+|---|---|---|
+| Authentication | `/api/auth/register` | POST |
+| Authentication | `/api/auth/login` | POST |
+| Users | `/api/users` | GET |
+| Departments | `/api/users/departments` | GET |
+| Tasks | `/api/tasks` | GET, POST |
+| Tasks | `/api/tasks/{id}` | PUT, DELETE |
+| Resources | `/api/resources` | GET, POST |
+| Allocations | `/api/allocations` | GET, POST |
+| Dashboard | `/api/dashboard/stats` | GET |
+
+> Endpoint names may vary depending on the final controller mappings in the project.
+
+## 🧪 Testing
+
+Run the test suite with:
+
+```bash
+mvn test
+```
+
+Build the project with:
+
+```bash
+mvn clean package
+```
+
+## 🚀 Deployment
+
+### Backend Deployment
+The Spring Boot backend can be deployed using platforms such as:
+
+- Render
+- Railway
+- AWS
+- Azure
+- Google Cloud
+
+Build command:
+
+```bash
+mvn clean package
+```
+
+Run command:
+
+```bash
+java -jar target/*.jar
+```
+
+### Frontend Deployment
+The frontend is served from Spring Boot's static resources directory:
+
+```text
+src/main/resources/static/
+```
+
+After deployment, update the frontend API base URL in:
+
+```text
+src/main/resources/static/js/api.js
+```
+
+Example:
+
+```javascript
+const API_BASE_URL = "https://your-backend-live-url.com/api";
+```
+
+## 🔒 Security Notes
+
+- Passwords are handled through Spring Security.
+- JWT tokens are used for authenticated requests.
+- CORS configuration is included in the backend.
+- Never expose database passwords or JWT secrets publicly.
+- Use environment variables for production credentials.
+- Configure HTTPS for production deployment.
+
+## 📸 Screenshots
+
+Add screenshots of the following pages to showcase the application:
+
+1. Login page
+2. Registration page
+3. Dashboard with charts
+4. Task management page
+5. Resource inventory page
+6. Resource allocation page
+
+Example:
+
+```markdown
+![Dashboard Screenshot](screenshots/dashboard.png)
+```
+
+## 📌 Roadmap
+
+- [x] User authentication
+- [x] JWT security
+- [x] Task management
+- [x] Resource management
+- [x] Resource allocation
+- [x] Dashboard statistics
+- [ ] Email notifications
+- [ ] Advanced reporting
+- [ ] Export reports to PDF/Excel
+- [ ] Docker deployment
+- [ ] Automated CI/CD pipeline
+
+## 👨‍💻 Author
+
+**Himanshu Yadav**
+
+- GitHub: `https://github.com/YOUR-USERNAME`
+- LinkedIn: `https://www.linkedin.com/in/YOUR-PROFILE`
+
+## 📄 License
+
+This project is intended for educational and demonstration purposes. Add your preferred license here if required.
+

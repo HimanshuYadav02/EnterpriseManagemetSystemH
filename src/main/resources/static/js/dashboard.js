@@ -5,7 +5,7 @@ const Dashboard = (() => {
             if (res.success && res.data) {
                 const s = res.data;
                 document.getElementById('stat-total-tasks').textContent = s.totalTasks;
-                document.getElementById('stat-completed-rate').textContent = s.taskCompletionRate + '% Completed (' + s.completedTasks + ')';
+                document.getElementById('stat-completed-rate').textContent = s.taskCompletionRate + ' 80 % Completed (' + s.completedTasks + ')';
                 document.getElementById('stat-in-progress-tasks').textContent = s.inProgressTasks;
                 document.getElementById('stat-todo-tasks').textContent = s.todoTasks + '  ' + s.inReviewTasks + ' in review';
                 document.getElementById('stat-overdue-tasks').textContent = s.overdueTasks;

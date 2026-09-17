@@ -7,7 +7,7 @@ const Dashboard = (() => {
                 document.getElementById('stat-total-tasks').textContent = s.totalTasks;
                 document.getElementById('stat-completed-rate').textContent = s.taskCompletionRate + '% Completed (' + s.completedTasks + ')';
                 document.getElementById('stat-in-progress-tasks').textContent = s.inProgressTasks;
-                document.getElementById('stat-todo-tasks').textContent = s.todoTasks + ' in backlog, ' + s.inReviewTasks + ' in review';
+                document.getElementById('stat-todo-tasks').textContent = s.todoTasks + '  ' + s.inReviewTasks + ' in review';
                 document.getElementById('stat-overdue-tasks').textContent = s.overdueTasks;
                 document.getElementById('stat-total-resources').textContent = s.totalResources;
                 document.getElementById('stat-utilization-rate').textContent = s.resourceUtilizationRate + '% Utilization (' + s.activeAllocations + ' active)';

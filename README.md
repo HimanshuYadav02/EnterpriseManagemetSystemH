@@ -8,7 +8,7 @@ A full-stack enterprise application for managing **users, departments, tasks, re
 - **Backend API:** https://enterprisemanagemetsystemh-4.onrender.com/api
 - **API Base URL:** https://enterprisemanagemetsystemh-4.onrender.com/api
 
-> Replace the placeholder URLs above with your deployed frontend and backend links.
+
 
 ## ✨ Features
 
@@ -42,14 +42,14 @@ A full-stack enterprise application for managing **users, departments, tasks, re
   - COMPLETED
 - Update actual hours and task progress
 
-### 🧰 Resource Management
+### Resource Management
 - Register enterprise resources
 - Track resource type and status
 - Monitor available and allocated resources
 - Manage physical and digital assets
 - Resource inventory and capacity tracking
 
-### 📅 Resource Allocation
+###  Resource Allocation
 - Book resources for users or tasks
 - Check-out and check-in resources
 - Track allocation history
@@ -61,7 +61,7 @@ A full-stack enterprise application for managing **users, departments, tasks, re
 - Assign users to departments
 - Manage user roles and permissions
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 ### Backend
 - Java
@@ -88,7 +88,7 @@ A full-stack enterprise application for managing **users, departments, tasks, re
 ## 📁 Project Structure
 
 ```text
-enterprise-task-resource-mgmt/
+enterprise-task-resource
 ├── pom.xml
 ├── schema.sql
 ├── README.md
@@ -140,57 +140,6 @@ Install the following tools:
 - MySQL 8+ (for production-style setup)
 - Git
 
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-cd enterprise-task-resource-mgmt
-```
-
-### 2. Configure the database
-
-Create a MySQL database:
-
-```sql
-CREATE DATABASE task_resource_db;
-```
-
-Update your MySQL configuration in:
-
-```text
-src/main/resources/application-mysql.properties
-```
-
-Example:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/task_resource_db
-spring.datasource.username=YOUR_DB_USERNAME
-spring.datasource.password=YOUR_DB_PASSWORD
-```
-
-> Do not commit real passwords, JWT secrets, or private credentials to GitHub.
-
-### 3. Run the application
-
-For development:
-
-```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
-```
-
-For MySQL:
-
-```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=mysql
-```
-
-The application will be available at:
-
-```text
-http://localhost:8080
-```
-
 ## 🔌 API Endpoints
 
 | Module | Endpoint | Method |
@@ -205,89 +154,6 @@ http://localhost:8080
 | Allocations | `/api/allocations` | GET, POST |
 | Dashboard | `/api/dashboard/stats` | GET |
 
-> Endpoint names may vary depending on the final controller mappings in the project.
-
-## 🧪 Testing
-
-Run the test suite with:
-
-```bash
-mvn test
-```
-
-Build the project with:
-
-```bash
-mvn clean package
-```
-
-## 🚀 Deployment
-
-### Backend Deployment
-The Spring Boot backend can be deployed using platforms such as:
-
-- Render
-- Railway
-- AWS
-- Azure
-- Google Cloud
-
-Build command:
-
-```bash
-mvn clean package
-```
-
-Run command:
-
-```bash
-java -jar target/*.jar
-```
-
-### Frontend Deployment
-The frontend is served from Spring Boot's static resources directory:
-
-```text
-src/main/resources/static/
-```
-
-After deployment, update the frontend API base URL in:
-
-```text
-src/main/resources/static/js/api.js
-```
-
-Example:
-
-```javascript
-const API_BASE_URL = "https://your-backend-live-url.com/api";
-```
-
-## 🔒 Security Notes
-
-- Passwords are handled through Spring Security.
-- JWT tokens are used for authenticated requests.
-- CORS configuration is included in the backend.
-- Never expose database passwords or JWT secrets publicly.
-- Use environment variables for production credentials.
-- Configure HTTPS for production deployment.
-
-## 📸 Screenshots
-
-Add screenshots of the following pages to showcase the application:
-
-1. Login page
-2. Registration page
-3. Dashboard with charts
-4. Task management page
-5. Resource inventory page
-6. Resource allocation page
-
-Example:
-
-```markdown
-![Dashboard Screenshot](screenshots/dashboard.png)
-```
 
 ## 📌 Roadmap
 

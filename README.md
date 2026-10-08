@@ -173,10 +173,12 @@ Install the following tools:
 
 **Himanshu Yadav**
 
-- GitHub: `https://github.com/YOUR-USERNAME`
-- LinkedIn: `https://www.linkedin.com/in/YOUR-PROFILE`
+- GitHub: `https://github.com/HimanshuYadav02`
+- LinkedIn: `www.linkedin.com/in/
+himanshu-yadav-0h20y
+`
 
 ## 📄 License
 
-This project is intended for educational and demonstration purposes. Add your preferred license here if required.
+This project is intended for educational and demonstration purposes.
 
